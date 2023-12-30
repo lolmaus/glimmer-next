@@ -49,7 +49,7 @@ export function transform(source: string, fileName: string) {
   const babelResult = transformSync(rawTxt, {
     plugins: [babelPlugin],
     filename: fileName,
-    presets: ["@babel/preset-typescript"],
+    presets: ["module:@babel/plugin-proposal-decorators", "@babel/preset-typescript"],
   });
 
   const txt = babelResult?.code ?? "";

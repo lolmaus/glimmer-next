@@ -1,6 +1,7 @@
 import { cell } from "@/utils/reactive";
 import { hbs, scope } from "@/utils/template";
 import { effect } from "@/utils/vm";
+import { Input } from "./Input";
 
 export function Smile() {
   const isVisible = cell(true, "isVisible");
@@ -45,12 +46,12 @@ export function Smile() {
     clearInterval(interval);
   }, destroyEffect];
 
-  scope({ isVisible, destructors, fadeOut });
+  scope({ isVisible, destructors, fadeOut, Input });
 
 
 
 
   // @todo - fix case when destructors binded to node may change, likely we need to create a new comment node, and keep it stable;
   // upd: fixed, need to add tests for it
-  return hbs`{{#if isVisible}}<span {{fadeOut}}>😀</span>{{else}}<span {{fadeOut}}>😉</span>{{/if}}`;
+  return hbs`<Input />{{#if isVisible}}<span {{fadeOut}}>😀</span>{{else}}<span {{fadeOut}}>😉</span>{{/if}}`;
 }
