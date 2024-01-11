@@ -370,10 +370,14 @@ export function serializeNode(
     } else {
       tagProps = tagProps.split('[]').join(SYMBOLS.EMPTY_ARRAY);
     }
-    return `${SYMBOLS.TAG}('${node.tag}', ${tagProps}, [${serializeChildren(
+    let children = `[${serializeChildren(
       node.children,
       ctxName,
-    )}], ${ctxName})`;
+    )}]`;
+    if (children === '[]') {
+      children = SYMBOLS.EMPTY_ARRAY;
+    }
+    return `${SYMBOLS.TAG}('${node.tag}', ${tagProps}, ${children}, ${ctxName})`;
   } else {
     if (typeof node === 'string') {
       if (isPath(node)) {
