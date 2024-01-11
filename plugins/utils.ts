@@ -367,6 +367,8 @@ export function serializeNode(
     )},${toArray(node.events)}${hasSplatAttrs ? `,$fw` : ''}]`;
     if (tagProps === '[[],[],[]]') {
       tagProps = SYMBOLS.EMPTY_DOM_PROPS;
+    } else {
+      tagProps = tagProps.split('[]').join(SYMBOLS.EMPTY_ARRAY);
     }
     return `${SYMBOLS.TAG}('${node.tag}', ${tagProps}, [${serializeChildren(
       node.children,

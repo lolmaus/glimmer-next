@@ -42,7 +42,8 @@ import {
 } from './shared';
 
 // EMPTY DOM PROPS
-export const $_edp = [[], [], []] as Props;
+export const $_ea = Object.freeze(Object.seal([])) as Readonly<Props[number]>;
+export const $_edp = Object.freeze(Object.seal([$_ea, $_ea, $_ea])) as unknown as Readonly<Props>;
 export const $_emptySlot = Object.seal(Object.freeze({}));
 
 const $_className = 'className';
