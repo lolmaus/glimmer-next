@@ -383,6 +383,7 @@ if (IS_DEV_MODE) {
     COMPONENTS_HMR.delete(oldklass);
   };
 }
+const copyableComponents = new WeakMap<ComponentReturnType | Component, HTMLElement[]>();
 // hello, basic component manager
 function component(
   comp: ComponentReturnType | Component,
@@ -398,6 +399,14 @@ function component(
     if (!COMPONENTS_HMR.has(comp)) {
       COMPONENTS_HMR.set(comp, new Set());
     }
+  }
+  if (copyableComponents.has(comp)) {
+    const copy = copyableComponents.get(comp)! as HTMLElement[];
+      return {
+        index: 0,
+        ctx: null,
+        nodes: copy.map(n => n.cloneNode(true)),
+      };
   }
   // @ts-expect-error construct signature
   const instance = new (comp as unknown as Component<any>)(args, fw);
@@ -427,6 +436,9 @@ function component(
       if (IS_DEV_MODE) {
         setBounds(result);
       }
+    } else {
+      // @ts-expect-error Node -> HTMLElement
+      copyableComponents.set(comp, result.nodes.map((node: HTMLElement) => node.cloneNode(true)));
     }
     return result;
   }
