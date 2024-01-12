@@ -710,15 +710,33 @@ export function $_fin(
     HTMLElement | ComponentReturnType | NodeReturnType | Text | Comment
   > = [];
   roots.forEach((root) => {
-    if ($nodes in root) {
-      nodes.push(
-        ...(root[$nodes] as unknown as Array<HTMLElement | Text | Comment>),
-      );
-    } else if ($node in root) {
-      nodes.push(root[$node] as unknown as HTMLElement | Text | Comment);
+    if (IS_GLIMMER_COMPAT_MODE) {
+      // with glimmer compat mode no primitives allowed as template nodes
+      if ($nodes in root) {
+        nodes.push(
+          ...(root[$nodes] as unknown as Array<HTMLElement | Text | Comment>),
+        );
+      } else if ($node in root) {
+        nodes.push(root[$node] as unknown as HTMLElement | Text | Comment);
+      } else {
+        nodes.push(root);
+      }
     } else {
-      nodes.push(root);
+      if (root === null) {
+        return;
+      } else if (isPrimitive(root)) {
+        nodes.push(api.text(String(root)));
+      } else if ($nodes in root) {
+        nodes.push(
+          ...(root[$nodes] as unknown as Array<HTMLElement | Text | Comment>),
+        );
+      } else if ($node in root) {
+        nodes.push(root[$node] as unknown as HTMLElement | Text | Comment);
+      } else {
+        nodes.push(root);
+      }
     }
+   
   });
   if (!isStable) {
     if (IS_DEV_MODE) {
