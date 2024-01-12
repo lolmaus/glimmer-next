@@ -386,10 +386,10 @@ if (IS_DEV_MODE) {
     COMPONENTS_HMR.delete(oldklass);
   };
 }
-const copyableComponents = new WeakMap<
-  ComponentReturnType | Component,
-  HTMLElement[]
->();
+// const copyableComponents = new WeakMap<
+//   ComponentReturnType | Component,
+//   HTMLElement[]
+// >();
 // hello, basic component manager
 function component(
   comp: ComponentReturnType | Component,
@@ -406,14 +406,14 @@ function component(
       COMPONENTS_HMR.set(comp, new Set());
     }
   }
-  if (copyableComponents.has(comp)) {
-    const copy = copyableComponents.get(comp)! as HTMLElement[];
-    return {
-      index: 0,
-      ctx: null,
-      nodes: copy.map((n) => n.cloneNode(true)),
-    };
-  }
+  // if (copyableComponents.has(comp)) {
+  //   const copy = copyableComponents.get(comp)! as HTMLElement[];
+  //   return {
+  //     index: 0,
+  //     ctx: null,
+  //     nodes: copy.map((n) => n.cloneNode(true)),
+  //   };
+  // }
   // @ts-expect-error construct signature
   const instance = new (comp as unknown as Component<any>)(args, fw);
   // todo - fix typings here
@@ -442,14 +442,15 @@ function component(
       if (IS_DEV_MODE) {
         setBounds(result);
       }
-    } else {
-      const nodes = result.nodes as HTMLElement[];
-      copyableComponents.set(
-        comp,
-        // @ts-expect-error new
-        nodes.map((node: HTMLElement) => node.cloneNode(true)),
-      );
     }
+    //  else {
+    //   const nodes = result.nodes as HTMLElement[];
+    //   copyableComponents.set(
+    //     comp,
+    //     // @ts-expect-error new
+    //     nodes.map((node: HTMLElement) => node.cloneNode(true)),
+    //   );
+    // }
     return result;
   }
   if (instance.ctx !== null) {
