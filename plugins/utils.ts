@@ -370,10 +370,7 @@ export function serializeNode(
     } else {
       tagProps = tagProps.split('[]').join(SYMBOLS.EMPTY_ARRAY);
     }
-    let children = `[${serializeChildren(
-      node.children,
-      ctxName,
-    )}]`;
+    let children = `[${serializeChildren(node.children, ctxName)}]`;
     if (children === '[]') {
       children = SYMBOLS.EMPTY_ARRAY;
     }

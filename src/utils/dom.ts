@@ -43,7 +43,9 @@ import {
 
 // EMPTY DOM PROPS
 export const $_ea = Object.freeze(Object.seal([])) as Readonly<Props[number]>;
-export const $_edp = Object.freeze(Object.seal([$_ea, $_ea, $_ea])) as unknown as Readonly<Props>;
+export const $_edp = Object.freeze(
+  Object.seal([$_ea, $_ea, $_ea]),
+) as unknown as Readonly<Props>;
 export const $_emptySlot = Object.seal(Object.freeze({}));
 
 const $_className = 'className';
@@ -384,7 +386,10 @@ if (IS_DEV_MODE) {
     COMPONENTS_HMR.delete(oldklass);
   };
 }
-const copyableComponents = new WeakMap<ComponentReturnType | Component, HTMLElement[]>();
+const copyableComponents = new WeakMap<
+  ComponentReturnType | Component,
+  HTMLElement[]
+>();
 // hello, basic component manager
 function component(
   comp: ComponentReturnType | Component,
@@ -403,11 +408,11 @@ function component(
   }
   if (copyableComponents.has(comp)) {
     const copy = copyableComponents.get(comp)! as HTMLElement[];
-      return {
-        index: 0,
-        ctx: null,
-        nodes: copy.map(n => n.cloneNode(true)),
-      };
+    return {
+      index: 0,
+      ctx: null,
+      nodes: copy.map((n) => n.cloneNode(true)),
+    };
   }
   // @ts-expect-error construct signature
   const instance = new (comp as unknown as Component<any>)(args, fw);
@@ -439,7 +444,10 @@ function component(
       }
     } else {
       // @ts-expect-error Node -> HTMLElement
-      copyableComponents.set(comp, result.nodes.map((node: HTMLElement) => node.cloneNode(true)));
+      copyableComponents.set(
+        comp,
+        result.nodes.map((node: HTMLElement) => node.cloneNode(true)),
+      );
     }
     return result;
   }
