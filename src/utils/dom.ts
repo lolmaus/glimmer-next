@@ -443,10 +443,11 @@ function component(
         setBounds(result);
       }
     } else {
-      // @ts-expect-error Node -> HTMLElement
+      const nodes = result.nodes as HTMLElement[];
       copyableComponents.set(
         comp,
-        result.nodes.map((node: HTMLElement) => node.cloneNode(true)),
+        // @ts-expect-error new
+        nodes.map((node: HTMLElement) => node.cloneNode(true)),
       );
     }
     return result;
