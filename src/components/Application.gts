@@ -37,10 +37,5 @@ export class Application extends Component {
       router.mount(window.location.pathname);
     });
   }
-  <template>
-    <NestedRouter
-      @components={{this.components}}
-      @stack={{this.router.stack}}
-    />
-  </template>
+  <template><Benchmark /></template>
 }
